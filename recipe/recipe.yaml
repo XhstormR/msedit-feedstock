@@ -8,8 +8,6 @@ package:
 source:
   url: https://github.com/microsoft/edit/archive/v${{ version }}.tar.gz
   sha256: f35da309c5f3d92b10e5c4b2267e4d5e29d809b2aa460e80326b11f7feba72a5
-  patches:
-    - release-nightly.patch     # https://github.com/microsoft/edit/blob/main/.cargo/release-nightly.toml
 
 build:
   number: 0
@@ -21,10 +19,8 @@ build:
     content:
       - if: unix
         then:
-          - cp .cargo/release-nightly.toml .cargo/config.toml
           - cargo auditable install -j ${CPU_COUNT} --root "${PREFIX}" --path . --locked --no-track
         else:
-          - copy .cargo\release-nightly.toml .cargo\config.toml
           - cargo auditable install -j %CPU_COUNT% --root "%PREFIX%" --path . --locked --no-track
       - cargo-bundle-licenses --format yaml --output ./THIRDPARTY.yml
 
